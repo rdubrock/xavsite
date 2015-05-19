@@ -41,7 +41,7 @@ app.use(multipart({
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.get('/', function(req, res) {
-    res.render('index', {title: 'Francesca DuBrock'});
+    res.render('index', {title: 'Francesca DuBrock', blogTitle: blogTitle, blogImg: blogImg, blogBody: blogBody});
 })
 
 app.get('/login', function(req, res) {
@@ -60,6 +60,7 @@ app.post('/login', function(req, res) {
 
 app.post('/authenticate', [jwtAuth], function(req, res){
   if(req.userStatus === 'loggedIn'){
+    console.log('got here');
     res.status(200).end();
   } else {
     res.status(500).end();
@@ -86,8 +87,10 @@ app.post('/uploads', [jwtAuth], function(req, res){
 
 app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
-    console.log(req.body);
-    blogTitle = req.body.post-title;
+    blogTitle = req.body.title;
+    blogImage = 'public/images/blogpost/'+req.body.image;
+    blogBody = req.body.body;
+    res.redirect('/');
   }
 })
 

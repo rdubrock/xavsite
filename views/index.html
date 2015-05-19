@@ -20,7 +20,8 @@
       <div>
         <h1>ARTSY STUFF GOES HERE!</h1>
       </div>
-      <div id="blog" ng-controller= "UserController as User" ng-switch="User.userState">
+      <div id="blog" ng-controller= "UserController as User">
+        <h1>
         <div ng-show="User.loggedIn">
           <button ng-click="User.toggleEditor()">Toggle Edit</button>
           <div id="editor" ng-hide="User.editor">
@@ -44,15 +45,15 @@
             <p>{{post.body}}</p>
             <form name='postCreator' method="post" action="/blogsave"> 
               <label>Post Title</label>
-              <input type="text" name="post-title" ng-model="post.title"><br/>
+              <input type="text" name="title" ng-model="post.title"><br/>
               <label>Image</label>
-              <select ng-model="post.image">
+              <select name="image" ng-model="post.image">
                 <option ng-repeat="image in User.images" value="{{image}}">
                   {{image}}
                 </option>
               </select>
               <br/>
-              <label>Post Body </label><textarea ng-model="post.body"></textarea><br/>
+              <label>Post Body </label><textarea name="body" ng-model="post.body"></textarea><br/>
               <h1>and then click this goddamn BUTTON</h1>
               <button type="submit">FUCK YEAH</button>
             </form>

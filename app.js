@@ -4,13 +4,28 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
-var jwt = require('jwt-simple');
-var moment = require('moment');
+
 var bcrypt = require('bcrypt');
 var https = require('https');
+
+//jwts
+var jwt = require('jwt-simple');
+var moment = require('moment');
+var jwtKey = 'S2F7JF6ltWX4cgC5VDcQ';
+var password = 'dirtshouldcakehowever';
+var userName = 'Franchfry';
+//upload
+var multipart = require('connect-multiparty');
+
+//database
+var redis = require('redis');
+var client = redis.createClient(); 
+client.on('connect', function() {
+    console.log('connected');
+});
+//email
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var multipart = require('connect-multiparty');
 // var mailgunLogin = require('./mailgunlogin.js');
 // var transporter = nodemailer.createTransport(smtpTransport({
 //   host: 'smtp.mailgun.org',
@@ -20,16 +35,8 @@ var multipart = require('connect-multiparty');
 //   }
 // }));
 
-var jwtKey = 'S2F7JF6ltWX4cgC5VDcQ';
-var password = 'dirtshouldcakehowever';
-var userName = 'Franchfry';
-var blogTitle = '';
-var blogBody = '';
-var blogImg = '';
-
 // view engine setup
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -41,12 +48,21 @@ app.use(multipart({
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.get('/', function(req, res) {
+  var blogTitle = '';
+  var blogImg = '';
+  var blogBody = '';
+  client.mget(['blogTitle', 'blogImage', 'blogBody'], function(err, reply){
+    console.log(reply);
+    blogTitle = reply[0];
+    blogImg = reply[1];
+    blogBody = reply[2];
     res.render('index', {title: 'Francesca DuBrock', blogTitle: blogTitle, blogImg: blogImg, blogBody: blogBody});
-})
+  });  
+});
 
 app.get('/login', function(req, res) {
     res.render('login');
-})
+});
 
 app.post('/login', function(req, res) {
  
@@ -60,7 +76,6 @@ app.post('/login', function(req, res) {
 
 app.post('/authenticate', [jwtAuth], function(req, res){
   if(req.userStatus === 'loggedIn'){
-    console.log('got here');
     res.status(200).end();
   } else {
     res.status(500).end();
@@ -87,9 +102,9 @@ app.post('/uploads', [jwtAuth], function(req, res){
 
 app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
-    blogTitle = req.body.title;
-    blogImage = 'public/images/blogpost/'+req.body.image;
-    blogBody = req.body.body;
+    client.mset(['blogTitle', req.body.title, 'blogImage', 'images/blogpost/'+req.body.image, 'blogBody', req.body.body], function(err, reply){
+      console.log('BLOG SAVE: '+reply);
+    })
     res.redirect('/');
   }
 })

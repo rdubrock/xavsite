@@ -17,7 +17,7 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
   this.images = UserService.images;
 
   this.loggedIn = false;
-  
+
   if(document.cookie){
     $http.post('/authenticate').
     success(function(data, status, headers, config) {
@@ -64,10 +64,11 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
               }).success(function (data, status, headers, config) {
                   var images = data.split(",");
                   images.shift();
+                  UserService.images.splice(0, 10);
                   for (var i = 0; i < images.length; i++) {
                     UserService.images.push(images[i]);
+                    console.log(UserService.images);
                   };
-                  console.log(UserService.images);
               });
           }
       }

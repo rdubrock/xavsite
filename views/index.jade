@@ -23,6 +23,8 @@ body
         #editor(ng-hide='User.editor')
           h1 Welcome back, Turdy
           h3 First, upload the image you would like
+          h3 If you have more than like 3 images uploaded, hit this button first
+          button(ng-click='User.deleteImages()') Delete Old Pics
           div(ng-controller='UploadController')
             .drop-box(ngf-drop='', ngf-select='', ng-model='files', ngf-drag-over-class='dragover', ngf-multiple='true', ngf-allow-dir='true', accept='image/*,application/pdf')
               | Drop image here
@@ -50,6 +52,7 @@ body
             br
             h3 and then click this goddamn BUTTON
             button(type='submit') FUCK YEAH
+
       div
         h1=blogTitle
         img(src = blogImg)

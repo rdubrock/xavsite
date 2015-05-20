@@ -3,9 +3,15 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
 .controller('UserController', ['UserService', '$http', function(UserService, $http){
   var self = this;
 
-  this.imageDelete = function(){
-     // UserService.images.splice(0, 100);
-     console.log(this.images);
+  this.deleteImages = function(){
+     UserService.images.splice(0, 100);
+     $http.post('/deleteimages').
+     success(function(data, status, headers, config) {
+      console.log('deleted');
+     }).
+     error(function(data, status, headers, config) {
+      console.log(status);
+     })
   }
 
   this.editor = true;
@@ -62,8 +68,11 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
                   $scope.log = 'progress: ' + progressPercentage + '% ' +
                               evt.config.file.name + '\n' + $scope.log;
               }).success(function (data, status, headers, config) {
+
+                  
                   var images = data.split(",");
-                  images.shift();
+                  // console.log(images);
+                  // images.shift();
                   UserService.images.splice(0, 10);
                   for (var i = 0; i < images.length; i++) {
                     UserService.images.push(images[i]);

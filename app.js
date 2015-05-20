@@ -82,17 +82,18 @@ app.post('/authenticate', [jwtAuth], function(req, res){
   }
 })
 
-exports.create = function (req, res, next) {
-    var data = _.pick(req.body, 'type')
-        , uploadPath = path.normalize(cfg.data + '/uploads')
-        , file = req.files.file;
+// exports.create = function (req, res, next) {
+//     var data = _.pick(req.body, 'type')
+//         , uploadPath = path.normalize(cfg.data + '/uploads')
+//         , file = req.files.file;
 
-        console.log(file.name); //original name (ie: sunset.png)
-        console.log(file.path); //tmp path (ie: /tmp/12345-xyaz.png)
-    console.log(uploadPath); //uploads directory: (ie: /home/user/data/uploads)
-};
+//         console.log(file.name); //original name (ie: sunset.png)
+//         console.log(file.path); //tmp path (ie: /tmp/12345-xyaz.png)
+//     console.log(uploadPath); //uploads directory: (ie: /home/user/data/uploads)
+// };
 
 app.post('/uploads', [jwtAuth], function(req, res){
+  console.log(req.file);
   fs.readdir('public/images/blogpost', function(err, files){
     if(err) throw err;
     var fileString = files.toString();
@@ -108,6 +109,21 @@ app.post('/blogsave', [jwtAuth], function(req, res){
     res.redirect('/');
   }
 })
+
+app.post('/deleteimages', [jwtAuth], function(req, res){
+  if (req.userStatus === 'loggedIn') {
+    fs.readdirSync('public/images/blogpost').forEach(function(file,index){
+      console.log(file);
+      var curPath = 'public/images/blogpost/' + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+      res.end();
+    });
+  }
+});
 
 function jwtAuth (req, res, next){
   var token = (req.cookies.token)

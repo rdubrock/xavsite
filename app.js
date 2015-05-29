@@ -52,7 +52,6 @@ app.get('/', function(req, res) {
   var blogImg = '';
   var blogBody = '';
   client.mget(['blogTitle', 'blogImage', 'blogBody'], function(err, reply){
-    console.log(reply);
     blogTitle = reply[0];
     blogImg = reply[1];
     blogBody = reply[2];
@@ -93,7 +92,6 @@ app.post('/authenticate', [jwtAuth], function(req, res){
 // };
 
 app.post('/uploads', [jwtAuth], function(req, res){
-  console.log(req.file);
   fs.readdir('public/images/blogpost', function(err, files){
     if(err) throw err;
     var fileString = files.toString();

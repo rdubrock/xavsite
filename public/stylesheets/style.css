@@ -23,24 +23,30 @@ a {
 .section {
   width: 100%;
   border: 3px solid black;
+  height: 100vh;
 }
 
 .img-container {
-  margin: 0 auto;
-
+  margin-left: 5%;
+  margin-bottom: 2%;
+  margin-top: 2%;
+  margin-right: 5%;
+  max-height: 100vh;
 }
 
 img {
-    max-height: 75vh;
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: auto;
+  max-width: 100%;
+  max-height: 80vh;
+  height: auto;
+  display: block;
 }
 @media {
   img { 
     width: auto; /* for ie 8 */
   }
+}
+.section{
+  height: 100vh;
 }
 #art {
   background-image: url('../images/book2.gif'); 
@@ -51,18 +57,43 @@ img {
 }
 
 #editor{
-  overflow: scroll;
+  padding: 5%;
+}
+
+#toggle {
+  margin-top: 3%;
+  margin-left: 5%;
+}
+
+#preview {
+  background-color: #CCCCCC;
 }
 #blog {
+  height: 100%;
   overflow: scroll;
   padding: 0!important;
   margin: 0 auto;
 }
 
+#post {
+  margin: 0 auto;
+}
 
 #contact {
   border: 5px solid black;
 }
 
+@media (max-height: 450px) {
+  img {
+    max-height: 75vh;
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  .img-container h3, p {
+    margin: .4em;
+    font-size: 1em;
+  }
+}
 
 

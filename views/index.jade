@@ -7,16 +7,15 @@ html(ng-app="franSite" lang='en')
     meta(property='og:url', content='http://www.francescadubrock.com')
     meta(property='og:type', content='website')
     meta(property='og:title', content='The Art of Francesca DuBrock.')
-    meta(property='og:description', content='Francesca DuBrock artwork.')
+    meta(property='og:description', content='Francesca DuBrock, artist.')
     title Francesca DuBrock
     link(rel='stylesheet', href='stylesheets/style.css')
-    link(rel='stylesheet', href='stylesheets/jquery.fullPage.css')
+    link(rel='stylesheet', herf='jquery.fullpage.css')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
     script(src='http://code.jquery.com/jquery-1.11.3.min.js')
-    script(src='javascripts/ng-file-upload.min.js')
     script(src='javascripts/app.js')
-    script(type = 'text/javascript' src='javascripts/jquery.slimscroll.min.js') 
-    script(type = 'text/javascript' src='javascripts/jquery.fullPage.js')
+    script(src='javascripts/ng-file-upload.min.js')
+    script(src='javascripts/jquery.fullpage.min.js')
     script(src='javascripts/scroll.js')
   block body
     #fullpage
@@ -40,10 +39,10 @@ html(ng-app="franSite" lang='en')
               pre.
                 \n{{log}}                  
             h3  And then make yo' goddamn WEB PAGE
-            h1 {{post.title}}
-            .img-container
+            .img-container#preview
+              h1 {{post.title}}
+              p {{post.body}}
               img(ng-src='images/blogpost/{{post.image}}')
-            p {{post.body}}
             form(name='postCreator', method='post', action='/blogsave')
               label Post Title
               input(type='text', name='title', ng-model='post.title')
@@ -59,9 +58,9 @@ html(ng-app="franSite" lang='en')
               h3 and then click this goddamn BUTTON
               button(type='submit') FUCK YEAH
         #post
-          h3=blogTitle
-          p=blogBody
           .img-container
+            h3=blogTitle
+            p=blogBody
             img(src = blogImg)
       .section#contactinfo
         h1 Contact?

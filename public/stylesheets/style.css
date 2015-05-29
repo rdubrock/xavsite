@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  margin: 0 auto;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -19,3 +19,50 @@ a {
 .dragover {
     border: 5px dashed blue;
 }
+
+.section {
+  width: 100%;
+  border: 3px solid black;
+}
+
+.img-container {
+  margin: 0 auto;
+
+}
+
+img {
+    max-height: 75vh;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+@media {
+  img { 
+    width: auto; /* for ie 8 */
+  }
+}
+#art {
+  background-image: url('../images/book2.gif'); 
+}
+
+#art h1 {
+  color: white;
+}
+
+#editor{
+  overflow: scroll;
+}
+#blog {
+  overflow: scroll;
+  padding: 0!important;
+  margin: 0 auto;
+}
+
+
+#contact {
+  border: 5px solid black;
+}
+
+
+

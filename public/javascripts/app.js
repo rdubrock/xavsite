@@ -27,7 +27,6 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
   if(document.cookie){
     $http.post('/authenticate').
     success(function(data, status, headers, config) {
-      console.log(status);
       self.loggedIn = true;
       $http.post('/uploads').
         success(function(data, status, headers, config) {
@@ -68,15 +67,10 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
                   $scope.log = 'progress: ' + progressPercentage + '% ' +
                               evt.config.file.name + '\n' + $scope.log;
               }).success(function (data, status, headers, config) {
-
-                  
                   var images = data.split(",");
-                  // console.log(images);
-                  // images.shift();
                   UserService.images.splice(0, 10);
                   for (var i = 0; i < images.length; i++) {
                     UserService.images.push(images[i]);
-                    console.log(UserService.images);
                   };
               });
           }

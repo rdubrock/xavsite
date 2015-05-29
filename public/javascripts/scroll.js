@@ -40,7 +40,7 @@ if(document.cookie.split('=')[0]==='token'){
         verticalCentered: true,
         resize : false,
         sectionsColor : ['#ccc', '#fff'],
-        paddingTop: '0',
+        paddingTop: '5px',
         paddingBottom: '0px',
         fixedElements: '#header, .footer',
         responsive: 0,

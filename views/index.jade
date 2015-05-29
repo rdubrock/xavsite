@@ -59,13 +59,14 @@ html(ng-app="franSite" lang='en')
               button(type='submit') FUCK YEAH
         #post
           .img-container
-            h3=blogTitle
-            p=blogBody
+            .img-title
+              h3=blogTitle
+              p=blogBody
             img(src = blogImg)
       .section#contactinfo
-        h1 Contact?
-      .section#anothertestsection
-        p adjfapea;hdf a;oidf ae gasodhf ashauhe faeha
+        #contacttitle
+          a(href='mailto:hello@francescadubrock.com')
+            h1 Contact
   
           
 

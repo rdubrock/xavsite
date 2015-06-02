@@ -67,13 +67,16 @@ a:hover{
 }
 
 video {
-  max-width: 100% !important;
-  max-height: 100% !important;
+  width: 100% !important;
 }
 
 
 .gfyGif{
   position:relative !important;
+}
+
+#art {
+  overflow: auto;
 }
 
 #editor{

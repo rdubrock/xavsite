@@ -9,18 +9,19 @@ html(ng-app="franSite" lang='en')
     meta(property='og:title', content='The Art of Francesca DuBrock.')
     meta(property='og:description', content='Francesca DuBrock, artist.')
     title Francesca DuBrock
-    link(rel='stylesheet', href='stylesheets/style.css')
     link(rel='stylesheet', herf='jquery.fullpage.css')
+    link(href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet' type='text/css')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
     script(src='http://code.jquery.com/jquery-1.11.3.min.js')
     script(src='javascripts/app.js')
     script(src='javascripts/ng-file-upload.min.js')
     script(src='javascripts/jquery.fullpage.min.js')
     script(src='javascripts/scroll.js')
+    link(rel='stylesheet', href='stylesheets/style.css')
   block body
     #fullpage
       .section#art
-        h1 ART, BITCHES!
+        img(class="gfyitem" data-id='ThirdBraveEarwig' data-controls='false' data-dot='false' data-perimeter='false')
       .section#blog(ng-controller='UserController as User')
         div(ng-show='User.loggedIn')
           button#toggle(ng-click='User.toggleEditor()') Toggle Edit

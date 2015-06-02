@@ -1,6 +1,6 @@
 body {
   margin: 0 auto;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Varela', sans-serif;
 }
 
 a {
@@ -40,7 +40,7 @@ a:hover{
   text-align: match-parent;
 }
 
-img {
+.img-container img {
   max-width: 100%;
   max-height: 80vh;
   height: auto;
@@ -52,12 +52,28 @@ img {
   }
 }
 
-#art {
-  background-image: url('../images/book2.gif'); 
+.gfyitem {
+  width: 100% !important;
+  max-width:100% !important;
+  height: auto !important;    
 }
 
-#art h1 {
-  color: white;
+.gfyitem div {
+  max-width: 100% !important;
+  max-height: 100vh !important;
+}
+.gfyPreLoadCanvas{
+  display: none;
+}
+
+video {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+
+.gfyGif{
+  position:relative !important;
 }
 
 #editor{
@@ -81,6 +97,10 @@ img {
 
 #post {
   margin: 0 auto;
+}
+
+.section {
+  height: 100vh;
 }
 
 #contacttitle {

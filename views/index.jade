@@ -41,9 +41,10 @@ html(ng-app="franSite" lang='en')
                 \n{{log}}                  
             h3  And then make yo' goddamn WEB PAGE
             .img-container#preview
-              h1 {{post.title}}
-              p {{post.body}}
+              
               img(ng-src='images/blogpost/{{post.image}}')
+              span h1 {{post.title}}
+              span p {{post.body}}
             form(name='postCreator', method='post', action='/blogsave')
               label Post Title
               input(type='text', name='title', ng-model='post.title')
@@ -60,10 +61,12 @@ html(ng-app="franSite" lang='en')
               button(type='submit') FUCK YEAH
         #post
           .img-container
-            .img-title
-              h3=blogTitle
-              p=blogBody
             img(src = blogImg)
+            .img-title
+              span 
+                h3=blogTitle
+              span 
+                p=blogBody
       .section#contactinfo
         #contacttitle
           a(href='mailto:hello@francescadubrock.com')

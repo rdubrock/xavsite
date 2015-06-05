@@ -48,6 +48,10 @@ app.use(multipart({
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.get('/', function(req, res) {
+  res.render('index');
+});
+
+app.get('/main', function(req, res) {
   var blogTitle = '';
   var blogImg = '';
   var blogBody = '';
@@ -55,9 +59,9 @@ app.get('/', function(req, res) {
     blogTitle = reply[0];
     blogImg = reply[1];
     blogBody = reply[2];
-    res.render('index', {title: 'Francesca DuBrock', blogTitle: blogTitle, blogImg: blogImg, blogBody: blogBody});
   });  
-});
+  res.render('main');
+})
 
 app.get('/login', function(req, res) {
     res.render('login');

@@ -1,0 +1,104 @@
+doctype html
+html(lang='en' ng-app='franSite')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='initial-scale=1.0, user-scalable=no, width=device-width')
+    meta(property='og:url', content='http://www.francescadubrock.com')
+    meta(property='og:type', content='website')
+    meta(property='og:title', content='The Art of Francesca DuBrock.')
+    meta(property='og:description', content='Francesca DuBrock, artist.')
+    title Francesca DuBrock
+    link(href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet' type='text/css')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
+    script(src='http://code.jquery.com/jquery-1.11.3.min.js')
+    script(src='javascripts/app.js')
+    script(src='javascripts/ng-file-upload.min.js')
+    link(rel='stylesheet', href='stylesheets/style.css')
+  block body
+    div(ng-controller='UserController as User')
+      div(ng-show='User.loggedIn')
+        button#toggle(ng-click='User.toggleEditor()') Toggle Edit
+        button#logout(ng-click='User.logOut()') Log OUT
+        #editor(ng-hide='User.editor')
+          h1 Welcome back, Turdy
+          h3 First, upload the image you would like
+          h3 If you have more than like 3 images uploaded, hit this button first
+          button(ng-click='User.deleteImages()') Delete Old Pics
+          div(ng-controller='UploadController')
+            .drop-box(ngf-drop='', ngf-select='', ng-model='files', ngf-drag-over-class='dragover', ngf-multiple='true', ngf-allow-dir='true', accept='image/*,application/pdf')
+              | Drop image here
+            |               Files:
+            ul
+              li(ng-repeat='f in files', style='font:smaller') {{f.name}}
+            |                 Upload Log:
+            pre.
+              \n{{log}}                  
+          h3  And then make yo' goddamn WEB PAGE
+          .img-container#preview
+            
+            img(ng-src='images/blogpost/{{post.firstImage}}')
+            img(ng-src='images/blogpost/{{post.secondImage}}')
+            img(ng-src='images/blogpost/{{post.thirdImage}}')
+            img(ng-src='images/blogpost/{{post.fourthImage}}')
+            img(ng-src='images/blogpost/{{post.fifthImage}}')
+            img(ng-src='images/blogpost/{{post.sixthImage}}')
+            .img-title
+              span 
+                h3 {{post.title}}
+              span 
+                p {{post.body}}
+          form(name='postCreator', method='post', action='/blogsave')
+            label Image
+            select(name='image', ng-model='post.firstImage')
+              option(ng-repeat='image in User.images', value='{{image}}')
+                | {{image}}
+            br
+            select(name='image', ng-model='post.secondImage')
+              option(ng-repeat='image in User.images', value='{{image}}')
+                | {{image}}
+            br
+            select(name='image', ng-model='post.thirdImage')
+              option(ng-repeat='image in User.images', value='{{image}}')
+                | {{image}}
+            br
+            select(name='image', ng-model='post.fourthImage')
+              option(ng-repeat='image in User.images', value='{{image}}')
+                | {{image}}
+            br
+            select(name='image', ng-model='post.fifthImage')
+              option(ng-repeat='image in User.images', value='{{image}}')
+                | {{image}}
+            br
+            select(name='image', ng-model='post.sixthImage')
+              option(ng-repeat='image in User.images', value='{{image}}')
+                | {{image}}
+            br
+            label Post Title
+            input(type='text', name='title', ng-model='post.title')
+            br
+            label Post Body 
+            textarea(name='body', ng-model='post.body')
+            br
+            h3 and then click this goddamn BUTTON
+            button(type='submit') FUCK YEAH
+      #post
+        .img-container
+          img(src = firstImage)
+          img(src= secondImage)
+          img(src= thirdImage)
+          img(src= fourthImage)
+          img(src= fifthImage)
+          img(src= sixthImage)
+          .img-title
+            span 
+              h3=blogTitle
+            span 
+              p=blogBody
+    .section#contactinfo
+      #contacttitle
+        a(href='mailto:hello@francescadubrock.com')
+          h1 hello@francescadubrock.com
+
+        
+

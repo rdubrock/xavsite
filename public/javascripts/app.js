@@ -20,6 +20,11 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
     this.editor = !this.editor;
   }
 
+  this.logOut = function(){
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    this.loggedIn = false;
+  }
+
   this.images = UserService.images;
 
   this.loggedIn = false;
@@ -44,7 +49,6 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
     error(function(data, status, headers, config) {
       console.log(data);
     });
-   
   }
 }])
 

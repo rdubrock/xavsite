@@ -9,68 +9,9 @@ html(ng-app="franSite" lang='en')
     meta(property='og:title', content='The Art of Francesca DuBrock.')
     meta(property='og:description', content='Francesca DuBrock, artist.')
     title Francesca DuBrock
-    link(rel='stylesheet', herf='jquery.fullpage.css')
-    link(href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet' type='text/css')
-    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
-    script(src='http://code.jquery.com/jquery-1.11.3.min.js')
-    script(src='javascripts/app.js')
-    script(src='javascripts/ng-file-upload.min.js')
-    script(src='javascripts/jquery.fullpage.min.js')
     script(src='javascripts/scroll.js')
     link(rel='stylesheet', href='stylesheets/style.css')
-  block body
-    #fullpage
-      .section#art
-        img(class="gfyitem" data-id='ThirdBraveEarwig' data-controls='false' data-dot='false' data-perimeter='false')
-      .section#blog(ng-controller='UserController as User')
-        div(ng-show='User.loggedIn')
-          button#toggle(ng-click='User.toggleEditor()') Toggle Edit
-          #editor(ng-hide='User.editor')
-            h1 Welcome back, Turdy
-            h3 First, upload the image you would like
-            h3 If you have more than like 3 images uploaded, hit this button first
-            button(ng-click='User.deleteImages()') Delete Old Pics
-            div(ng-controller='UploadController')
-              .drop-box(ngf-drop='', ngf-select='', ng-model='files', ngf-drag-over-class='dragover', ngf-multiple='true', ngf-allow-dir='true', accept='image/*,application/pdf')
-                | Drop image here
-              |               Files:
-              ul
-                li(ng-repeat='f in files', style='font:smaller') {{f.name}}
-              |                 Upload Log:
-              pre.
-                \n{{log}}                  
-            h3  And then make yo' goddamn WEB PAGE
-            .img-container#preview
-              
-              img(ng-src='images/blogpost/{{post.image}}')
-              span h1 {{post.title}}
-              span p {{post.body}}
-            form(name='postCreator', method='post', action='/blogsave')
-              label Post Title
-              input(type='text', name='title', ng-model='post.title')
-              br
-              label Image
-              select(name='image', ng-model='post.image')
-                option(ng-repeat='image in User.images', value='{{image}}')
-                  | {{image}}
-              br
-              label Post Body 
-              textarea(name='body', ng-model='post.body')
-              br
-              h3 and then click this goddamn BUTTON
-              button(type='submit') FUCK YEAH
-        #post
-          .img-container
-            img(src = blogImg)
-            .img-title
-              span 
-                h3=blogTitle
-              span 
-                p=blogBody
-      .section#contactinfo
-        #contacttitle
-          a(href='mailto:hello@francescadubrock.com')
-            h1 Contact
-  
-          
 
+  block body
+    a(href='/main')
+      img(class="gfyitem" data-id='ThirdBraveEarwig' data-controls='false' data-dot='false' data-perimeter='false')

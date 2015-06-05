@@ -14,15 +14,20 @@ var moment = require('moment');
 var jwtKey = 'S2F7JF6ltWX4cgC5VDcQ';
 var password = 'dirtshouldcakehowever';
 var userName = 'Franchfry';
+
 //upload
 var multipart = require('connect-multiparty');
 
 //database
-var redis = require('redis');
-var client = redis.createClient(); 
-client.on('connect', function() {
-    console.log('connected');
+var mongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
+var url = 'mongodb://localhost:27017/fransite';
+mongoClient.connect(url, function(err, db){
+  if (err) throw err;
+  app.set('mongo', db); 
+  console.log("Connected to mongo");
 });
+
 //email
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -47,7 +52,9 @@ app.use(multipart({
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+
 app.get('/', function(req, res) {
+  
   res.render('index');
 });
 
@@ -55,12 +62,10 @@ app.get('/main', function(req, res) {
   var blogTitle = '';
   var blogImg = '';
   var blogBody = '';
-  client.mget(['blogTitle', 'blogImage', 'blogBody'], function(err, reply){
-    blogTitle = reply[0];
-    blogImg = reply[1];
-    blogBody = reply[2];
-  });  
+  var db = app.get('mongo');
+  var posts = db.collection('posts');
   res.render('main');
+  
 })
 
 app.get('/login', function(req, res) {
@@ -105,10 +110,12 @@ app.post('/uploads', [jwtAuth], function(req, res){
 
 app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
-    client.mset(['blogTitle', req.body.title, 'blogImage', 'images/blogpost/'+req.body.image, 'blogBody', req.body.body], function(err, reply){
+    var db = app.get('mongo');
+    var posts = db.collection('posts');
+    posts.insert({images: [req.body.firstImage, req.body.secondImage,req.body.thirdImage,req.body.fourthImage, req.body.fifthImage, req.body.sixthImage], title: req.body.title, body: req.body.body}, function(err, reply){
       console.log('BLOG SAVE: '+reply);
     })
-    res.redirect('/');
+    res.redirect('/main');
   }
 })
 
@@ -125,6 +132,14 @@ app.post('/deleteimages', [jwtAuth], function(req, res){
       res.end();
     });
   }
+});
+
+app.get('/posts', function(req, res){
+  var db = app.get('mongo');
+  var posts = db.collection('posts');
+  posts.find().sort({'_id': -1}).limit(10).toArray(function(err, response){
+    res.json(response);
+  }); 
 });
 
 function jwtAuth (req, res, next){

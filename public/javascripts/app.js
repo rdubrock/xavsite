@@ -1,4 +1,4 @@
-var franSite = angular.module('franSite', ['ngFileUpload'])
+var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
 .controller('UserController', ['UserService', '$http', function(UserService, $http){
   var self = this;
@@ -29,6 +29,8 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
 
   this.loggedIn = false;
 
+  this.posts;
+
   if(document.cookie){
     $http.post('/authenticate').
     success(function(data, status, headers, config) {
@@ -40,6 +42,12 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
             for (var i = 0; i < images.length; i++) {
               UserService.images.push(images[i]);
             };
+            $http.get('/posts').
+              success(function(data, status, headers, config) {
+                self.posts = data;
+              }).error(function(data, status, headers, config){
+                console.log(data);
+              });
         }).
         error(function(data, status, headers, config) {
           console.log(status);
@@ -47,6 +55,13 @@ var franSite = angular.module('franSite', ['ngFileUpload'])
 
     }).
     error(function(data, status, headers, config) {
+      console.log(data);
+    });
+  } else {
+    $http.get('/posts').
+    success(function(data, status, headers, config) {
+      self.posts = data;
+    }).error(function(data, status, headers, config){
       console.log(data);
     });
   }

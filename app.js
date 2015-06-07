@@ -59,14 +59,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/main', function(req, res) {
-  var blogTitle = '';
-  var blogImg = '';
-  var blogBody = '';
-  var db = app.get('mongo');
-  var posts = db.collection('posts');
   res.render('main');
-  
-})
+});
 
 app.get('/login', function(req, res) {
     res.render('login');
@@ -112,7 +106,7 @@ app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
     var db = app.get('mongo');
     var posts = db.collection('posts');
-    posts.insert({images: [req.body.firstImage, req.body.secondImage,req.body.thirdImage,req.body.fourthImage, req.body.fifthImage, req.body.sixthImage], title: req.body.title, body: req.body.body}, function(err, reply){
+    posts.insert({images: req.body.images, title: req.body.title, body: req.body.body}, function(err, reply){
       console.log('BLOG SAVE: '+reply);
     })
     res.redirect('/main');

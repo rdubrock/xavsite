@@ -1,35 +1,9 @@
 var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
-.controller('UserController', ['UserService', '$http', function(UserService, $http){
+.controller('UserController', ['UserService', '$http', '$sce', function(UserService, $http, $sce){
   var self = this;
 
-  this.deleteImages = function(){
-     UserService.images.splice(0, 100);
-     $http.post('/deleteimages').
-     success(function(data, status, headers, config) {
-      console.log('deleted');
-     }).
-     error(function(data, status, headers, config) {
-      console.log(status);
-     })
-  }
-
-  this.editor = true;
-
-  this.toggleEditor = function(){
-    this.editor = !this.editor;
-  }
-
-  this.logOut = function(){
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    this.loggedIn = false;
-  }
-
-  this.images = UserService.images;
-
-  this.loggedIn = false;
-
-  this.posts;
+  var postNumber=0;
 
   if(document.cookie){
     $http.post('/authenticate').
@@ -61,10 +35,87 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
     $http.get('/posts').
     success(function(data, status, headers, config) {
       self.posts = data;
+      postNumber++;
     }).error(function(data, status, headers, config){
       console.log(data);
     });
   }
+
+  this.deleteImages = function(){
+     UserService.images.splice(0, 100);
+     $http.post('/deleteimages').
+     success(function(data, status, headers, config) {
+      console.log('deleted');
+     }).
+     error(function(data, status, headers, config) {
+      console.log(status);
+     })
+  }
+
+  this.editor = true;
+
+  this.toggleEditor = function(){
+    this.editor = !this.editor;
+  }
+
+  this.save = function(){
+    var images = [];
+    var title;
+    var body;
+
+    if (this.firstImage) {
+      images.push('<img src="images/blogpost/' + this.firstImage + '">');
+    };
+    if (this.secondImage) {
+      images.push('<img src="images/blogpost/' + this.secondImage + '">');
+    };
+    if (this.thirdImage) {
+      images.push('<img src="images/blogpost/' + this.thirdImage + '">');
+    };
+    if (this.fourthImage) {
+      images.push('<img src="images/blogpost/' + this.fourthImage + '">');
+    };
+    if (this.fifthImage) {
+      images.push('<img src="images/blogpost/' + this.fifthImage + '">');
+    };
+    if (this.sixthImage) {
+      images.push('<img src="images/blogpost/' + this.sixthImage + '">');
+    };
+    if(this.title) {
+      title = '<h5>' + this.title + '</h5>';
+    }
+    if(this.body) {
+      body = '<p>' + this.body + '<p>';
+    }
+    $http.post('/blogsave', {images: images, title: title, body: body}).
+    success(function(data, status, headers, config) {
+      console.log('blog saved');
+    }).
+    error(function(data, status, headers, config) {
+      console.log('save failed');
+    });
+  }
+  this.logOut = function(){
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    this.loggedIn = false;
+  }
+
+  this.images = UserService.images;
+
+  this.loggedIn = false;
+
+  this.posts;
+
+  this.renderImgHtml = function(post) {
+    console.log('Got here');
+    console.log(post);
+    return $sce.trustAsHtml(post);
+  }
+
+  this.renderTextHtml = function() {
+
+  }
+  
 }])
 
 .controller('UploadController', ['$scope', 'Upload', 'UserService', function ($scope, Upload, UserService) {
@@ -80,7 +131,8 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
               var file = files[i];
               Upload.upload({
                   url: '/uploads',
-                  file: file
+                  file: file,
+                  data: file.name
               }).progress(function (evt) {
                   var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                   $scope.log = 'progress: ' + progressPercentage + '% ' +
@@ -99,5 +151,12 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
 .service('UserService', function() {
   this.images = [];
+})
+
+.filter('toHtml', function ($sce) {
+    return function (value) {
+      console.log(value);
+        return $sce.trustAsHtml(value);
+    };
 });
 

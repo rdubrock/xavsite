@@ -58,6 +58,12 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
     this.editor = !this.editor;
   }
 
+  this.postUpdate = false;
+
+  this.showPostUpdate = function() {
+    this.postUpdate = !this.postUpdate;
+  }
+
   this.save = function(){
     var images = [];
     var title;
@@ -81,15 +87,12 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
     if (this.sixthImage) {
       images.push('<img src="images/blogpost/' + this.sixthImage + '">');
     };
-    if(this.title) {
-      title = '<h5>' + this.title + '</h5>';
-    }
     if(this.body) {
       body = '<p>' + this.body + '<p>';
     }
     $http.post('/blogsave', {images: images, title: title, body: body}).
     success(function(data, status, headers, config) {
-      console.log('blog saved');
+      window.location.reload();
     }).
     error(function(data, status, headers, config) {
       console.log('save failed');
@@ -106,14 +109,20 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
   this.posts;
 
-  this.renderImgHtml = function(post) {
-    console.log('Got here');
-    console.log(post);
-    return $sce.trustAsHtml(post);
+  this.updatePreview = function(html) {
+    this.previewText = html;
   }
 
-  this.renderTextHtml = function() {
+  this.previewText;
 
+  this.delete = function(post){
+    $http.post('/blogdelete', {id: post._id}).
+    success(function(data, status, headers, config) {
+      window.location.reload();
+    }).
+    error(function(data, status, headers, config) {
+      console.log(data);
+    });
   }
   
 }])
@@ -155,8 +164,7 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
 .filter('toHtml', function ($sce) {
     return function (value) {
-      console.log(value);
-        return $sce.trustAsHtml(value);
+      return $sce.trustAsHtml(value);
     };
 });
 

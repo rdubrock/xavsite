@@ -22,6 +22,7 @@ var multipart = require('connect-multiparty');
 var mongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/fransite';
+var ObjectID = require('mongodb').ObjectID;
 mongoClient.connect(url, function(err, db){
   if (err) throw err;
   app.set('mongo', db); 
@@ -106,12 +107,12 @@ app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
     var db = app.get('mongo');
     var posts = db.collection('posts');
-    posts.insert({images: req.body.images, title: req.body.title, body: req.body.body}, function(err, reply){
+    posts.insert({images: req.body.images, body: req.body.body}, function(err, reply){
       console.log('BLOG SAVE: '+reply);
     })
     res.redirect('/main');
   }
-})
+});
 
 app.post('/deleteimages', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
@@ -124,6 +125,16 @@ app.post('/deleteimages', [jwtAuth], function(req, res){
         fs.unlinkSync(curPath);
       }
       res.end();
+    });
+  }
+});
+
+app.post('/blogdelete', [jwtAuth], function(req, res) {
+  if (req.userStatus === 'loggedIn') {
+    var db = app.get('mongo');
+    var posts = db.collection('posts');
+    posts.remove({_id: ObjectID(req.body.id)}, function(err, result) {
+      res.end(err + result);
     });
   }
 });

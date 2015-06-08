@@ -1,6 +1,6 @@
 body {
   margin: 0 auto;
-  font-family: 'Varela', sans-serif;
+  font-family: 'Amiri', serif;
 }
 
 .section {
@@ -81,6 +81,11 @@ video {
 
 #post {
   margin: 0 auto;
+} 
+
+#text {
+  max-width: 75%;
+  margin: 0 auto;
 }
 
 .drop-box {
@@ -97,9 +102,8 @@ video {
 }
 
 .img-container {
-  max-height: 100vh;
-  display: inline-block;
-  margin: 0 25%;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .img-title {
@@ -112,20 +116,6 @@ video {
   height: auto;
   margin-top: 2%;
   margin-bottom: 2%;
-}
-
-span {
-  display: inline-block;
-  margin-right: 1%
-}
-
-span p {
-  float: right;
-}
-
-span h3 {
-  font-weight: bold;
-  margin: 0 auto;
 }
 
 @media {
@@ -151,27 +141,5 @@ a {
 }
 
 
-
-@media (max-height: 450px) {
-  img {
-    max-height: 75vh;
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
-  .img-container h3, p {
-    margin: .4em;
-    font-size: 1em;
-  }
-  #contacttitle {
-    top: 15%;
-  }
-}
-
-@media (min-height: 450px) {
-  #contacttitle {
-    top: 30%;
-  }
-}
 
 

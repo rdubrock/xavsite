@@ -139,6 +139,16 @@ app.post('/blogdelete', [jwtAuth], function(req, res) {
   }
 });
 
+app.post('/blogupdate', [jwtAuth], function(req, res) {
+  if(req.userStatus === 'loggedIn') {
+    var db = app.get('mongo');
+    var posts = db.collection('posts');
+    posts.findAndModify({_id: ObjectID(req.body.id)}, ['_id'], {$set: {body: req.body.text}}, function(err, result) {
+      res.end(err + result);
+    })
+  }
+});
+
 app.get('/posts', function(req, res){
   var db = app.get('mongo');
   var posts = db.collection('posts');

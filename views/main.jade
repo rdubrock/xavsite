@@ -87,14 +87,13 @@ html(lang='en' ng-app='franSite')
             div#text(ng-bind-html='post.body')
             div#post-edits(ng-show='User.loggedIn')
               button(ng-click='User.delete(post)') Delete Post
-              button(ng-click='User.showPostUpdate()') Edit Text
+              button(ng-click='User.showPostUpdate(post.body)') Edit Text
               #post-update(ng-show='User.postUpdate')
-                form
-                  textarea(name='body')
-                    {{post.body}}
+                form(name ='User.updateTextForm' ng-submit='User.updateText(post._id)') 
+                  textarea(name='body' ng-model='User.updatedText')
+                    {{User.updatedText}}
                   br
-                  h3 Click on this shitty button to preview your text
-                  button(type='button' ng-click='User.updatePreview(User.editedText)') Shitty button
+                  button(type='submit') FUCK YEAH
     .section#contactinfo
       #contacttitle
         a(href='mailto:hello@francescadubrock.com')

@@ -60,8 +60,9 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
   this.postUpdate = false;
 
-  this.showPostUpdate = function() {
+  this.showPostUpdate = function(text) {
     this.postUpdate = !this.postUpdate;
+    this.updatedText = text;
   }
 
   this.save = function(){
@@ -90,6 +91,7 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
     if(this.body) {
       body = '<p>' + this.body + '<p>';
     }
+    
     $http.post('/blogsave', {images: images, title: title, body: body}).
     success(function(data, status, headers, config) {
       window.location.reload();
@@ -109,15 +111,20 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
   this.posts;
 
-  this.updatePreview = function(html) {
-    this.previewText = html;
+  this.updateText = function(id) {
+    $http.post('/blogupdate', {id: id, text: this.updatedText}).
+    success(function(data, status, headers, config) {
+      window.location.reload();
+    }).
+    error(function(data, status, headers, config) {
+      console.log(data);
+    });
   }
-
-  this.previewText;
 
   this.delete = function(post){
     $http.post('/blogdelete', {id: post._id}).
     success(function(data, status, headers, config) {
+      console.log(data);
       window.location.reload();
     }).
     error(function(data, status, headers, config) {

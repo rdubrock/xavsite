@@ -1,6 +1,8 @@
-var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
+var franSite = angular.module('franSite', ['ngSanitize'])
 
 .controller('UserController', ['UserService', '$http', '$sce', function(UserService, $http, $sce){
+  
+
   var self = this;
 
   var postNumber=0;
@@ -95,7 +97,11 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
       body = '<p>' + this.body + '<p>';
     }
 
-    $http.post('/blogsave', {images: images, title: title, body: body}).
+    if(this.video) {
+      var video = this.video;
+    }
+
+    $http.post('/blogsave', {images: images, video: video, title: title, body: body}).
     success(function(data, status, headers, config) {
       window.location.reload();
     }).
@@ -112,13 +118,7 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
   this.loggedIn = false;
 
-  this.posts;
-
-  this.previewText;
-
-  this.updatePreview = function(html) {
-   this.previewText = html;
-  }       
+  this.posts;    
 
   this.updateText = function(id) {
     $http.post('/blogupdate', {id: id, text: this.updatedText}).
@@ -209,5 +209,11 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
     return function (value) {
       return $sce.trustAsHtml(value);
     };
-});
+})
 
+.config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    'self',
+    'https://vimeo.com/**'
+  ]);
+});

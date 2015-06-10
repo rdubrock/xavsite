@@ -13,7 +13,6 @@ html(lang='en' ng-app='franSite')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
     script(src='http://code.jquery.com/jquery-1.11.3.min.js')
     script(src='javascripts/app.js')
-    script(src='javascripts/ng-file-upload.min.js')
     script(src="javascripts/angular-sanitize.min.js")
     link(rel='stylesheet', href='stylesheets/style.css')
   block body
@@ -39,7 +38,8 @@ html(lang='en' ng-app='franSite')
               img(ng-src='images/blogpost/{{User.fourthImage}}')
               img(ng-src='images/blogpost/{{User.fifthImage}}')
               img(ng-src='images/blogpost/{{User.sixthImage}}')
-              span(ng-bind-html='User.previewText')
+              #embedded-video(ng-bind-html='User.video | toHtml')
+              span(ng-bind-html='User.body | toHtml')
           form(name='postCreator', ng-submit='User.save()')
             label Image
             select(name='firstImage', ng-model='User.firstImage')
@@ -66,11 +66,11 @@ html(lang='en' ng-app='franSite')
               option(ng-repeat='image in User.images', value='{{image}}')
                 | {{image}}
             br
-            label Post Body 
-            textarea(name='body', ng-model='User.body')
+            label Paste video embed code here 
+            textarea(name='video' ng-model='User.video')
             br
-            h3 Click on this shitty button to preview your text
-            button(type='button' ng-click='User.updatePreview(User.body)') Shitty button
+            label Post Body 
+            textarea(name='body' ng-model='User.body')
             br
             h3 and then click this goddamn BUTTON
             button(type='submit') FUCK YEAH

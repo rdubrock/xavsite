@@ -46,17 +46,6 @@ var franSite = angular.module('franSite', ['ngSanitize'])
     });
   }
 
-  this.deleteImages = function(){
-     UserService.images.splice(0, 100);
-     $http.post('/deleteimages').
-     success(function(data, status, headers, config) {
-      console.log('deleted');
-     }).
-     error(function(data, status, headers, config) {
-      console.log(status);
-     })
-  }
-
   this.editor = true;
 
   this.toggleEditor = function(){

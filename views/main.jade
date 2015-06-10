@@ -9,7 +9,7 @@ html(lang='en' ng-app='franSite')
     meta(property='og:title', content='The Art of Francesca DuBrock.')
     meta(property='og:description', content='Francesca DuBrock, artist.')
     title Francesca DuBrock
-    link(href='http://fonts.googleapis.com/css?family=Amiri:400italic,400' rel='stylesheet' type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic'  rel='stylesheet' type='text/css')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
     script(src='http://code.jquery.com/jquery-1.11.3.min.js')
     script(src='javascripts/app.js')
@@ -23,8 +23,6 @@ html(lang='en' ng-app='franSite')
         #editor(ng-hide='User.editor')
           h1 Welcome back, Turdy
           h3 First, upload the image you would like
-          h3 If you have more than like 3 images uploaded, hit this button first
-          button(ng-click='User.deleteImages()') Delete Old Pics
           div(ng-controller='UploadController')
             form
               input(type='file' file-model='myFile' multiple)
@@ -79,6 +77,7 @@ html(lang='en' ng-app='franSite')
           .img-title
             div(ng-repeat='image in post.images track by $index')
               div(ng-bind-html="image | toHtml")
+            #embedded-video(ng-bind-html='post.video | toHtml')
             div#text(ng-bind-html='post.body')
             div#post-edits(ng-show='User.loggedIn')
               button(ng-click='User.delete(post)') Delete Post
@@ -88,6 +87,8 @@ html(lang='en' ng-app='franSite')
                   textarea(name='body' ng-model='User.updatedText') {{User.updatedText}}
                   br
                   button(type='submit') FUCK YEAH
+            #break
+              h1 * * * 
     #contactinfo
       #contacttitle
         a(href='mailto:hello@francescadubrock.com')

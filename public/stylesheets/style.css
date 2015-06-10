@@ -1,6 +1,6 @@
 body {
   margin: 0 auto;
-  font-family: 'Amiri', serif;
+  font-family: 'Crimson Text', serif;
 }
 
 .section {
@@ -88,19 +88,6 @@ video {
   margin: 0 auto;
 }
 
-.drop-box {
-    background: #F8F8F8;
-    border: 5px dashed #DDD;
-    width: 200px;
-    height: 65px;
-    text-align: center;
-    padding-top: 25px;
-    margin: 10px;
-}
-.dragover {
-    border: 5px dashed blue;
-}
-
 .img-container {
   width: 100%;
   margin: 0 auto;
@@ -116,6 +103,10 @@ video {
   height: auto;
   margin-top: 2%;
   margin-bottom: 2%;
+}
+
+#break h1 {
+  font-size: 4em;
 }
 
 @media {

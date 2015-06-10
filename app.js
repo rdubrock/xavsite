@@ -118,7 +118,7 @@ app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
     var db = app.get('mongo');
     var posts = db.collection('posts');
-    posts.insert({images: req.body.images, body: req.body.body}, function(err, reply){
+    posts.insert({images: req.body.images, video: req.body.video, body: req.body.body}, function(err, reply){
       console.log('BLOG SAVE: '+reply);
     })
     res.redirect('/main');

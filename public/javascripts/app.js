@@ -13,7 +13,11 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
         success(function(data, status, headers, config) {
           var images = data.split(",");
             for (var i = 0; i < images.length; i++) {
-              UserService.images.push(images[i]);
+              if(images[i] === ".DS_Store") {
+
+              } else {
+                UserService.images.push(images[i]);  
+              }
             };
             $http.get('/posts').
               success(function(data, status, headers, config) {
@@ -110,6 +114,12 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 
   this.posts;
 
+  this.previewText;
+
+  this.updatePreview = function(html) {
+   this.previewText = html;
+  }       
+
   this.updateText = function(id) {
     $http.post('/blogupdate', {id: id, text: this.updatedText}).
     success(function(data, status, headers, config) {
@@ -178,7 +188,11 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
             var images = data.split(",");
             UserService.images.splice(0, 100)
             for (var i = 0; i < images.length; i++) {
-              UserService.images.push(images[i]);
+              if(images[i] === ".DS_Store") {
+
+              } else {
+                UserService.images.push(images[i]);  
+              }
             };
           })
           .error(function(data, status, headers, config){

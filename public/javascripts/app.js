@@ -12,7 +12,6 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
       $http.post('/uploads').
         success(function(data, status, headers, config) {
           var images = data.split(",");
-            images.shift();
             for (var i = 0; i < images.length; i++) {
               UserService.images.push(images[i]);
             };
@@ -91,7 +90,7 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
     if(this.body) {
       body = '<p>' + this.body + '<p>';
     }
-    
+
     $http.post('/blogsave', {images: images, title: title, body: body}).
     success(function(data, status, headers, config) {
       window.location.reload();
@@ -134,33 +133,29 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
   
 }])
 
-.controller('UploadController', ['$scope', 'Upload', 'UserService', function ($scope, Upload, UserService) {
-  
-  $scope.$watch('files', function () {
-      $scope.upload($scope.files);
-  });
-  $scope.log = '';
+.controller('UploadController', ['$scope', 'fileUpload', function($scope, fileUpload){
+    
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' + JSON.stringify(file));
+        var uploadUrl = '/imageupload';
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+    };
+    
+}])
 
-  $scope.upload = function (files) {
-      if (files && files.length) {
-          for (var i = 0; i < files.length; i++) {
-              var file = files[i];
-              Upload.upload({
-                  url: '/uploads',
-                  file: file,
-                  data: file.name
-              }).progress(function (evt) {
-                  var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                  $scope.log = 'progress: ' + progressPercentage + '% ' +
-                              evt.config.file.name + '\n' + $scope.log;
-              }).success(function (data, status, headers, config) {
-                  var images = data.split(",");
-                  UserService.images.splice(0, 10);
-                  for (var i = 0; i < images.length; i++) {
-                    UserService.images.push(images[i]);
-                  };
+.directive('fileModel', ['$parse', function ($parse) {
+  return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+          var model = $parse(attrs.fileModel);
+          var modelSetter = model.assign;
+          
+          element.bind('change', function(){
+              scope.$apply(function(){
+                  modelSetter(scope, element[0].files[0]);
               });
-          }
+          });
       }
   };
 }])
@@ -168,6 +163,33 @@ var franSite = angular.module('franSite', ['ngFileUpload', 'ngSanitize'])
 .service('UserService', function() {
   this.images = [];
 })
+
+.service('fileUpload', ['$http', 'UserService', function ($http, UserService) {
+    this.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(){
+          $http.post('/uploads').
+          success(function(data, status, headers, config) {
+            var images = data.split(",");
+            UserService.images.splice(0, 100)
+            for (var i = 0; i < images.length; i++) {
+              UserService.images.push(images[i]);
+            };
+          })
+          .error(function(data, status, headers, config){
+            console.log(data)
+          });
+        })
+        .error(function(data, status, headers, config){
+          console.log(data)
+        });
+    }
+}])
 
 .filter('toHtml', function ($sce) {
     return function (value) {

@@ -16,7 +16,7 @@ var password = 'dirtshouldcakehowever';
 var userName = 'Franchfry';
 
 //upload
-var multipart = require('connect-multiparty');
+var busboy = require('connect-busboy');
 
 //database
 var mongoClient = require('mongodb').MongoClient;
@@ -47,9 +47,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
-app.use(multipart({
-    uploadDir: 'public/images/blogpost'
-}));
+app.use(busboy()); 
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -103,6 +101,19 @@ app.post('/uploads', [jwtAuth], function(req, res){
   })  
 });
 
+app.post('/imageupload', [jwtAuth], function(req, res){
+  var fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+        console.log("Uploading: " + filename); 
+        fstream = fs.createWriteStream('public/images/blogpost/' + filename);
+        file.pipe(fstream);
+        fstream.on('close', function () {
+            res.end('success');
+        });
+    });
+});
+
 app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
     var db = app.get('mongo');
@@ -117,7 +128,6 @@ app.post('/blogsave', [jwtAuth], function(req, res){
 app.post('/deleteimages', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
     fs.readdirSync('public/images/blogpost').forEach(function(file,index){
-      console.log(file);
       var curPath = 'public/images/blogpost/' + file;
       if(fs.lstatSync(curPath).isDirectory()) { // recurse
         deleteFolderRecursive(curPath);

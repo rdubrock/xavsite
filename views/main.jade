@@ -27,14 +27,9 @@ html(lang='en' ng-app='franSite')
           h3 If you have more than like 3 images uploaded, hit this button first
           button(ng-click='User.deleteImages()') Delete Old Pics
           div(ng-controller='UploadController')
-            .drop-box(ngf-drop='', ngf-select='', ng-model='files', ngf-drag-over-class='dragover', ngf-multiple='true', ngf-allow-dir='true', accept='image/*,application/pdf')
-              | Drop image here
-            |               Files:
-            ul
-              li(ng-repeat='f in files', style='font:smaller') {{f.name}}
-            |                 Upload Log:
-            pre.
-              {{log}}                  
+            form
+              input(type='file' file-model='myFile' multiple)
+              button(ng-click='uploadFile()') Upload
           h3  And then make yo' goddamn WEB PAGE
           .img-container#preview
             .img-title
@@ -89,15 +84,14 @@ html(lang='en' ng-app='franSite')
               button(ng-click='User.delete(post)') Delete Post
               button(ng-click='User.showPostUpdate(post.body)') Edit Text
               #post-update(ng-show='User.postUpdate')
-                form(name ='User.updateTextForm' ng-submit='User.updateText(post._id)') 
-                  textarea(name='body' ng-model='User.updatedText')
-                    {{User.updatedText}}
+                form(name ='User.updateTextForm' ng-submit='User.updateText(post._id)')
+                  textarea(name='body' ng-model='User.updatedText') {{User.updatedText}}
                   br
                   button(type='submit') FUCK YEAH
-    .section#contactinfo
+    #contactinfo
       #contacttitle
         a(href='mailto:hello@francescadubrock.com')
-          h1 hello@francescadubrock.com
+          h3 hello@francescadubrock.com
 
         
 

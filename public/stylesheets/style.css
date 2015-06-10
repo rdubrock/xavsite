@@ -127,12 +127,7 @@ video {
 /*Contact Section*/
 
 #contacttitle {
-  position: relative;
-  font-size: 3em;
-  vertical-align: middle;
-  margin-left: 5%;
-  margin-right: 5%;
-  display: inline-block;
+  text-align: center;
 }
 
 a {

@@ -73,7 +73,7 @@ html(lang='en' ng-app='franSite')
             h3 and then click this goddamn BUTTON
             button(type='submit') FUCK YEAH
       #post
-        .img-container(ng-repeat= 'post in User.posts')
+        .img-container(ng-repeat= 'post in User.posts track by $index')
           .img-title
             div(ng-repeat='image in post.images track by $index')
               div(ng-bind-html="image | toHtml")

@@ -29,7 +29,7 @@ var franSite = angular.module('franSite', ['ngSanitize'])
               });
         }).
         error(function(data, status, headers, config) {
-          console.log(status);
+          console.log(status + " " + data);
         });
 
     }).

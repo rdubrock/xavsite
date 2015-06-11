@@ -94,11 +94,15 @@ app.post('/authenticate', [jwtAuth], function(req, res){
 // };
 
 app.post('/uploads', [jwtAuth], function(req, res){
-  fs.readdir('public/images/blogpost', function(err, files){
-    if(err) throw err;
-    var fileString = files.toString();
-    res.end(fileString);
-  })  
+  if(req.userStatus === 'loggedIn') {
+    fs.readdir('public/images/blogpost', function(err, files){
+      if(err) throw err;
+      var fileString = files.toString();
+      res.end(fileString);
+    });  
+  } else {
+    res.end('jwt error');
+  }
 });
 
 app.post('/imageupload', [jwtAuth], function(req, res){
@@ -122,20 +126,6 @@ app.post('/blogsave', [jwtAuth], function(req, res){
       console.log('BLOG SAVE: '+reply);
     })
     res.redirect('/main');
-  }
-});
-
-app.post('/deleteimages', [jwtAuth], function(req, res){
-  if (req.userStatus === 'loggedIn') {
-    fs.readdirSync('public/images/blogpost').forEach(function(file,index){
-      var curPath = 'public/images/blogpost/' + file;
-      if(fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-      res.end();
-    });
   }
 });
 
@@ -171,7 +161,7 @@ function jwtAuth (req, res, next){
   var token = (req.cookies.token)
   if (token) {  
     try {
-      var decoded = jwt.decode(token, jwtKey); //check for decoded.email
+      var decoded = jwt.decode(token, jwtKey);
       if (decoded.exp <= Date.now()){
         res.end('Access token expired', 400);
       }

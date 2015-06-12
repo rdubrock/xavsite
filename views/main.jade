@@ -80,8 +80,8 @@ html(lang='en' ng-app='franSite')
             #embedded-video(ng-bind-html='post.video | toHtml')
             div#text(ng-bind-html='post.body')
             div#post-edits(ng-show='User.loggedIn')
-              button(ng-click='User.delete(post)') Delete Post
-              button(ng-click='User.showPostUpdate(post.body)') Edit Text
+              button.button(ng-click='User.delete(post)') Delete Post
+              button.button(ng-click='User.showPostUpdate(post.body)') Edit Text
               #post-update(ng-show='User.postUpdate')
                 form(name ='User.updateTextForm' ng-submit='User.updateText(post._id)')
                   textarea(name='body' ng-model='User.updatedText') {{User.updatedText}}

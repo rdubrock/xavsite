@@ -11,9 +11,9 @@ var https = require('https');
 //jwts
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var jwtKey = 'S2F7JF6ltWX4cgC5VDcQ';
-var password = 'dirtshouldcakehowever';
-var userName = 'Franchfry';
+var jwtKey = process.env.FRANJWT;
+var password = process.env.FRANPASSWORD;
+var userName = process.env.FRANUSERNAME;
 
 //upload
 var busboy = require('connect-busboy');
@@ -26,7 +26,6 @@ var ObjectID = require('mongodb').ObjectID;
 mongoClient.connect(url, function(err, db){
   if (err) throw err;
   app.set('mongo', db); 
-  console.log("Connected to mongo");
 });
 
 //email
@@ -83,16 +82,6 @@ app.post('/authenticate', [jwtAuth], function(req, res){
   }
 })
 
-// exports.create = function (req, res, next) {
-//     var data = _.pick(req.body, 'type')
-//         , uploadPath = path.normalize(cfg.data + '/uploads')
-//         , file = req.files.file;
-
-//         console.log(file.name); //original name (ie: sunset.png)
-//         console.log(file.path); //tmp path (ie: /tmp/12345-xyaz.png)
-//     console.log(uploadPath); //uploads directory: (ie: /home/user/data/uploads)
-// };
-
 app.post('/uploads', [jwtAuth], function(req, res){
   if(req.userStatus === 'loggedIn') {
     fs.readdir('public/images/blogpost', function(err, files){
@@ -109,7 +98,6 @@ app.post('/imageupload', [jwtAuth], function(req, res){
   var fstream;
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
-        console.log("Uploading: " + filename); 
         fstream = fs.createWriteStream('public/images/blogpost/' + filename);
         file.pipe(fstream);
         fstream.on('close', function () {
@@ -123,7 +111,6 @@ app.post('/blogsave', [jwtAuth], function(req, res){
     var db = app.get('mongo');
     var posts = db.collection('posts');
     posts.insert({images: req.body.images, video: req.body.video, body: req.body.body}, function(err, reply){
-      console.log('BLOG SAVE: '+reply);
     })
     res.redirect('/main');
   }
@@ -165,7 +152,7 @@ function jwtAuth (req, res, next){
       if (decoded.exp <= Date.now()){
         res.end('Access token expired', 400);
       }
-      if (decoded.iss === "Franchfry" && decoded.pass === password) {
+      if (decoded.iss === userName && decoded.pass === password) {
         req.userStatus = 'loggedIn';
         next();
       }

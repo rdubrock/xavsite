@@ -71,9 +71,9 @@ html(lang='en' ng-app='franSite')
             textarea(name='body' ng-model='User.body')
             br
             h3 and then click this goddamn BUTTON
-            button(type='submit') FUCK YEAH
+            button.button(type='submit') FUCK YEAH
       #post
-        .img-container(ng-repeat= 'post in User.posts track by $index')
+        .img-container(ng-repeat= 'post in User.postsPaginated()')
           .img-title
             div(ng-repeat='image in post.images track by $index')
               div(ng-bind-html="image | toHtml")
@@ -86,9 +86,12 @@ html(lang='en' ng-app='franSite')
                 form(name ='User.updateTextForm' ng-submit='User.updateText(post._id)')
                   textarea(name='body' ng-model='User.updatedText') {{User.updatedText}}
                   br
-                  button(type='submit') FUCK YEAH
+                  button.button(type='submit') FUCK YEAH
             #break
               h1 * * * 
+        #next
+          button.button#prev-button(ng-click='User.prevPosts()' ng-show='User.currentPage') Previous
+          button.button#next-button(ng-click='User.nextPosts()' ng-show='User.nextButton') Next
     #contactinfo
       #contacttitle
         a(href='mailto:hello@francescadubrock.com')

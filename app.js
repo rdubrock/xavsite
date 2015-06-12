@@ -11,9 +11,10 @@ var https = require('https');
 //jwts
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var jwtKey = process.env.FRANJWT;
-var password = process.env.FRANPASSWORD;
-var userName = process.env.FRANUSERNAME;
+var userInfo = require('./userinfo.js')
+var jwtKey = userInfo.jwt
+var password = userInfo.password;
+var userName = userInfo.username;
 
 //upload
 var busboy = require('connect-busboy');
@@ -65,6 +66,7 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
+  console.log(userName+ ': ' +req.body.user);
  
   if (req.body.user === userName && req.body.password === password) {
       res.cookie('token', authenticate(userName, password));
@@ -139,7 +141,7 @@ app.post('/blogupdate', [jwtAuth], function(req, res) {
 app.get('/posts', function(req, res){
   var db = app.get('mongo');
   var posts = db.collection('posts');
-  posts.find().sort({'_id': -1}).limit(10).toArray(function(err, response){
+  posts.find().sort({'_id': -1}).toArray(function(err, response){
     res.json(response);
   }); 
 });

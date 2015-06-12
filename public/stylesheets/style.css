@@ -106,6 +106,39 @@ video {
   margin-bottom: 2%;
 }
 
+.button {
+  display: inline-block;
+  font-family: 'Crimson Text', serif;
+  font-size: 1em;
+  width: 200px;
+  padding: 8px;
+  color: #000;
+  background-color: #fff;
+  border: 2px solid #000;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  transition: background-color 0.2s ease-out,
+              color 0.2s ease-out;
+}
+.button:hover,
+.button:active {
+  background-color: #999;
+  color: #000;
+  transition: background-color 0.3s ease-in,
+              color 0.3s ease-in;
+}
+
+#prev-button {
+  float: left;
+  margin-left: 15%;
+}
+
+#next-button {
+  float: right;
+  margin-right: 15%;
+}
+
 #break h1 {
   font-size: 4em;
 }
@@ -117,9 +150,14 @@ video {
 }
 
 /*Contact Section*/
-
+#contactinfo {
+  clear: both;
+  width: 100%;
+}
 #contacttitle {
+  width: 20%;
   text-align: center;
+  margin: 0 auto
 }
 
 a {

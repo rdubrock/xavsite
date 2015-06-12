@@ -24,6 +24,11 @@ var franSite = angular.module('franSite', ['ngSanitize'])
             $http.get('/posts').
               success(function(data, status, headers, config) {
                 self.posts = data;
+                if (self.posts.length > 5) {
+                  self.nextButton = true;  
+                } else {
+                  self.nextButton = false;
+                }
               }).error(function(data, status, headers, config){
                 console.log(data);
               });
@@ -107,7 +112,34 @@ var franSite = angular.module('franSite', ['ngSanitize'])
 
   this.loggedIn = false;
 
-  this.posts;    
+  this.posts; 
+
+  this.nextButton;
+
+  this.currentPage = 0;  
+
+  this.itemsLimit = 5;
+
+  this.postsPaginated = function () {
+      var currentPageIndex = this.currentPage * this.itemsLimit;
+      if(this.posts){
+        if (currentPageIndex >= this.posts.length-5) {
+          this.nextButton = false;
+        }
+        return this.posts.slice(
+          currentPageIndex, 
+          currentPageIndex + this.itemsLimit);
+      }
+  };
+
+  this.nextPosts = function(){
+    this.currentPage++;
+  }
+
+  this.prevPosts = function(){
+    this.currentPage--;
+    this.nextButton=true;
+  }
 
   this.updateText = function(id) {
     $http.post('/blogupdate', {id: id, text: this.updatedText}).
@@ -117,7 +149,7 @@ var franSite = angular.module('franSite', ['ngSanitize'])
     error(function(data, status, headers, config) {
       console.log(data);
     });
-  }
+  };
 
   this.delete = function(post){
     $http.post('/blogdelete', {id: post._id}).

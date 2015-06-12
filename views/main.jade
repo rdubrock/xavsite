@@ -18,8 +18,8 @@ html(lang='en' ng-app='franSite')
   block body
     div(ng-controller='UserController as User')
       div(ng-show='User.loggedIn')
-        button#toggle(ng-click='User.toggleEditor()') Toggle Edit
-        button#logout(ng-click='User.logOut()') Log OUT
+        button#toggle.button(ng-click='User.toggleEditor()') Toggle Edit
+        button#logout.button(ng-click='User.logOut()') Log OUT
         #editor(ng-hide='User.editor')
           h1 Welcome back, Turdy
           h3 First, upload the image you would like

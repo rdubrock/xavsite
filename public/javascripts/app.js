@@ -45,7 +45,11 @@ var franSite = angular.module('franSite', ['ngSanitize'])
     $http.get('/posts').
     success(function(data, status, headers, config) {
       self.posts = data;
-      postNumber++;
+      if (self.posts.length > 5) {
+        self.nextButton = true;  
+      } else {
+        self.nextButton = false;
+      }
     }).error(function(data, status, headers, config){
       console.log(data);
     });

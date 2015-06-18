@@ -66,8 +66,6 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-  console.log(userName+ ': ' +req.body.user);
- 
   if (req.body.user === userName && req.body.password === password) {
       res.cookie('token', authenticate(userName, password));
       res.redirect('/');

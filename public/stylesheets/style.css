@@ -28,15 +28,23 @@ body {
   display: none;
 }
 
-@media screen and (min-aspect-ratio: 16/9) {
+@media (min-aspect-ratio: 16/9) {
   video {
+    width: 100%;
+    height: auto;
+  }
+  img {
     width: 100%;
     height: auto;
   }
 }
 
-@media screen and (max-aspect-ratio: 16/9) {
+@media (max-aspect-ratio: 16/9) {
   video {
+    width: auto;
+    height: 100%;
+  }
+  img{
     width: auto;
     height: 100%;
   }
@@ -51,6 +59,19 @@ video {
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
   object-fit: cover!important;
+}
+
+@media (max-width: 800px) {
+  img {
+    top: 50%!important;
+    left: 50%!important;
+    min-width: 100%!important;
+    min-height: 100%!important;
+    z-index: -100;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover!important;
+  }
 }
 
 

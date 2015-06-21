@@ -15,9 +15,7 @@ var franSite = angular.module('franSite', ['ngSanitize'])
         success(function(data, status, headers, config) {
           var images = data.split(",");
             for (var i = 0; i < images.length; i++) {
-              if(images[i] === '.DS_Store' || '.gitignore') {
-
-              } else {
+              if(images[i] !='.DS_Store' && images[i]!='.gitignore') {
                 UserService.images.push(images[i]);  
               }
             };

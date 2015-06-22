@@ -27,6 +27,6 @@ build/Release
 node_modules
 
 #userinfo
-userinfo
+userinfo.js
 
 deploy

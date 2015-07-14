@@ -22,7 +22,7 @@ var busboy = require('connect-busboy');
 //database
 var mongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/fransite';
+var url = 'mongodb://localhost:27017/xavsite';
 var ObjectID = require('mongodb').ObjectID;
 mongoClient.connect(url, function(err, db){
   if (err) throw err;
@@ -66,8 +66,6 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-  console.log('req.body.user: '+ req.body.user);
-  console.log('userName: '+ userName);
   if (req.body.user === userName && req.body.password === password) {
       res.cookie('token', authenticate(userName, password));
       res.redirect('/');
@@ -112,7 +110,8 @@ app.post('/blogsave', [jwtAuth], function(req, res){
   if (req.userStatus === 'loggedIn') {
     var db = app.get('mongo');
     var posts = db.collection('posts');
-    posts.insert({images: req.body.images, video: req.body.video, body: req.body.body}, function(err, reply){
+    console.log(req.body.author);
+    posts.insert({images: req.body.images, video: req.body.video, body: req.body.body, author: req.body.author}, function(err, reply){
     })
     res.redirect('/main');
   }

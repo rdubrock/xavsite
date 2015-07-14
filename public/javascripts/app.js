@@ -82,6 +82,7 @@ var franSite = angular.module('franSite', ['ngSanitize'])
     var images = [];
     var title;
     var body;
+    var author;
 
     if (this.firstImage) {
       images.push('<img src="images/blogpost/' + this.firstImage + '">');
@@ -109,7 +110,11 @@ var franSite = angular.module('franSite', ['ngSanitize'])
       var video = this.video;
     }
 
-    $http.post('/blogsave', {images: images, video: video, title: title, body: body}).
+    if(this.author) {
+      var author = this.author;
+    }
+
+    $http.post('/blogsave', {images: images, video: video, title: title, body: body, author: author}).
     success(function(data, status, headers, config) {
       window.location.reload();
     }).

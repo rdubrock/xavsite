@@ -38,6 +38,8 @@ html(lang='en' ng-app='franSite')
               img(ng-src='images/blogpost/{{User.sixthImage}}')
               #embedded-video(ng-bind-html='User.video | toHtml')
               span(ng-bind-html='User.body | toHtml')
+              div
+                h3 -{{User.author}}
           form(name='postCreator', ng-submit='User.save()')
             label Image
             select(name='firstImage', ng-model='User.firstImage')
@@ -92,7 +94,9 @@ html(lang='en' ng-app='franSite')
                   a(href='http://word2cleanhtml.com/') here. 
                   |Click on the 'convert to clean html' button, and then copy-paste whatever comes out into the text box above. 
 
-
+            br
+            label Who is making this post?
+            textarea(name='author' ng-model='User.author')
             h3 and then click this goddamn BUTTON
             button.button(type='submit') FUCK YEAH
       #post
@@ -102,6 +106,8 @@ html(lang='en' ng-app='franSite')
               div(ng-bind-html="image | toHtml")
             #embedded-video(ng-bind-html='post.video | toHtml')
             div#text(ng-bind-html='post.body')
+            div#author
+              h3 -{{post.author}}
             div#post-edits(ng-show='User.loggedIn')
               button.button(ng-click='User.delete(post)') Delete Post
               button.button(ng-click='User.showPostUpdate(post.body)') Edit Text

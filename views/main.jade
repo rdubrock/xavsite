@@ -21,13 +21,13 @@ html(lang='en' ng-app='franSite')
         button#toggle.button(ng-click='User.toggleEditor()') Toggle Edit
         button#logout.button(ng-click='User.logOut()') Log OUT
         #editor(ng-hide='User.editor')
-          h1 Welcome back, Turdy
-          h3 First, upload the image you would like
+          h1 Welcome back! Looking forward to your addition.
+          h3 First, upload any image you would like
           div(ng-controller='UploadController')
             form
               input(type='file' file-model='myFile' multiple)
               button(ng-click='uploadFile()') Upload
-          h3  And then make yo' goddamn WEB PAGE
+          h3  And then make yo' post
           .img-container#preview
             .img-title
               img(ng-src='images/blogpost/{{User.firstImage}}')
@@ -67,9 +67,32 @@ html(lang='en' ng-app='franSite')
             label Paste video embed code here 
             textarea(name='video' ng-model='User.video')
             br
+            button.button(type='button' ng-click='User.videoExplain()') How do I add a video?
+            div#video-tutorial(ng-show='User.videoTutorial')
+              h2 How to get a video in your post
+              p To add a video to this website, you will need to do the following:
+              ul
+                li Upload it to some sort of video sharing service (like vimeo or youtube. I would recommend vimeo, it is easy to make the videos private and is generally more user friendly). 
+                li Find the embed code. Vimeo and youtube both have a 'share' button that is pretty easy to find. Click on that button, and they will have and option that says 'embed'. 
+                li Copy the gobbledygook from the 'embed' section. It should have some reference to iframes and be enclosed in '<' and '>' things.
+                li Paste the gobbledygook into the text box above, and if it's all good, a preview of the video will pop up.
+                li If you would like to change the size of the video, you can do so by changing the iframe gobbledygook. In vimeo, right next to where you found the embed code, there is a 'show more options' button. Click on that, and change the height number (I recommend 800 pixels). Repeat the copy-pasting to see the changes.
+            br
             label Post Body 
             textarea(name='body' ng-model='User.body')
             br
+            button.button(type='button' ng-click='User.htmlExplain()') How the hell do I make the stupid text do what I want it to?
+            div#text-tutorial(ng-show='User.textTutorial')
+              h2 How to submit a post
+              p Due to my limited skillz, creating a post is a little bit wacky. You will have to jump through a hoop or two, and for that you have my eternal apology. The text box above is expecting HTML, which is a weird and interesting way to tell computers how to format text. You have two options:
+              ul
+                li Learn how to write text in HTML. Check it out 
+                  a(href='http://www.w3schools.com/html/html_formatting.asp') here
+                li Write in any text editor of your choice (Word, email, whatever), and then copy-paste it 
+                  a(href='http://word2cleanhtml.com/') here. 
+                  |Click on the 'convert to clean html' button, and then copy-paste whatever comes out into the text box above. 
+
+
             h3 and then click this goddamn BUTTON
             button.button(type='submit') FUCK YEAH
       #post
@@ -92,10 +115,6 @@ html(lang='en' ng-app='franSite')
         #next
           button.button#prev-button(ng-click='User.prevPosts()' ng-show='User.currentPage') Previous
           button.button#next-button(ng-click='User.nextPosts()' ng-show='User.nextButton') Next
-    #contactinfo
-      #contacttitle
-        a(href='mailto:hello@francescadubrock.com')
-          |hello@francescadubrock.com
 
         
 

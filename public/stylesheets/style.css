@@ -51,6 +51,7 @@ body {
 }
 
 video {
+  position: fixed!important;
   top: 50%!important;
   left: 50%!important;
   min-width: 100%!important;
@@ -180,11 +181,11 @@ video {
   text-align: center;
   margin: 0 auto
 }
-
+/*
 a {
   color: black;
   text-decoration: none;
-}
+}*/
 
 #email {
   display: inline-block!important;

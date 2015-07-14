@@ -66,6 +66,18 @@ var franSite = angular.module('franSite', ['ngSanitize'])
     this.updatedText = text;
   }
 
+  this.videoTutorial = false;
+
+  this.videoExplain = function() {
+    this.videoTutorial = !this.videoTutorial;
+  }
+
+  this.textTutorial = false;
+
+  this.htmlExplain = function() {
+    this.textTutorial = !this.textTutorial;
+  }
+
   this.save = function(){
     var images = [];
     var title;

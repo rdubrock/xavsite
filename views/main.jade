@@ -1,14 +1,7 @@
 doctype html
 html(lang='en' ng-app='franSite')
   head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='initial-scale=1.0, user-scalable=no, width=device-width')
-    meta(property='og:url', content='http://www.francescadubrock.com')
-    meta(property='og:type', content='website')
-    meta(property='og:title', content='The Art of Francesca DuBrock.')
-    meta(property='og:description', content='Francesca DuBrock, artist.')
-    title Francesca DuBrock
+    title Xav Stories
     link(href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
     script(src='http://code.jquery.com/jquery-1.11.3.min.js')
@@ -78,7 +71,9 @@ html(lang='en' ng-app='franSite')
                 li Find the embed code. Vimeo and youtube both have a 'share' button that is pretty easy to find. Click on that button, and they will have and option that says 'embed'. 
                 li Copy the gobbledygook from the 'embed' section. It should have some reference to iframes and be enclosed in '<' and '>' things.
                 li Paste the gobbledygook into the text box above, and if it's all good, a preview of the video will pop up.
-                li If you would like to change the size of the video, you can do so by changing the iframe gobbledygook. In vimeo, right next to where you found the embed code, there is a 'show more options' button. Click on that, and change the height number (I recommend 800 pixels). Repeat the copy-pasting to see the changes.
+                li If you would like to change the size of the video, you can do so by changing the iframe gobbledygook. Right next to where you found the embed code, there is a 'show more options' button. Click on that, and change the video size. Repeat the copy-pasting to see the changes.
+                li
+                  b If you want your video to be viewable ONLY on this website, use YouTube. During upload select the 'unlisted' option.
             br
             label Post Body 
             textarea(name='body' ng-model='User.body')

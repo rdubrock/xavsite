@@ -50,6 +50,8 @@ body {
   }
 }
 
+
+
 video {
   position: fixed!important;
   top: 50%!important;
@@ -126,6 +128,10 @@ video {
   height: auto;
   margin-top: 2%;
   margin-bottom: 2%;
+}
+
+#embedded-video {
+  margin-top: 2%;
 }
 
 .button {
